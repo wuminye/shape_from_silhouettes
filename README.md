@@ -14,6 +14,8 @@ The compiled program is in `./bin`
 An example:
 `./bin/vacancy_examples /dataset/sport_1_mask/CamPose.inf /dataset/sport_1_mask/Intrinsic.inf /dataset/sport_1_mask/img/0/mask/ ./data/ -1.0 -1.5 -5.0 1.1 0.0 -3.3 0.2`
 
+Mask file **MUST** named as "img_%04d.jpg" 
+
 
 Parameters:
 ```
