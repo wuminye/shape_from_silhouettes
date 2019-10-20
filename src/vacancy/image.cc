@@ -1,7 +1,3 @@
-/*
- * Copyright (C) 2019, unclearness
- * All rights reserved.
- */
 
 #include "vacancy/image.h"
 
@@ -108,5 +104,21 @@ void FaceId2RandomColor(const Image1i& face_id, Image3b* vis_face_id) {
     }
   }
 }
+
+
+void RGB2Mask(const Image3b& rgb, Image1b* mask)
+{
+  assert(mask != nullptr);
+
+  mask->Init(rgb.width(), rgb.height());
+
+  for (int y = 0; y < mask->height(); y++) {
+    for (int x = 0; x < mask->width(); x++) {
+      mask->at(x, y, 0) = rgb.at(x, y, 0);
+    }
+  }
+
+}
+
 
 }  // namespace vacancy

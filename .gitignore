@@ -1,8 +1,11 @@
 #
+/build/
 /win_build/
 /bin/
 /lib/
-
+/data/
+/third_party/eigen
+/third_party/stb
 # Prerequisites
 *.d
 

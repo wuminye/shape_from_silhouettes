@@ -55,9 +55,9 @@ endif()
 
 option(VACANCY_USE_OPENMP "Use OpenMP to enable parallelization" ON)
 message("VACANCY_USE_OPENMP: ${VACANCY_USE_OPENMP}")
-if(VACANCY_USE_OPENMP)
-  add_definitions(-DVACANCY_USE_OPENMP)
-endif()
+#if(VACANCY_USE_OPENMP)
+add_definitions(-DVACANCY_USE_OPENMP)
+#endif()
 
 # For OpenMP
 if(VACANCY_USE_OPENMP)

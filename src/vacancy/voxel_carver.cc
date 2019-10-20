@@ -308,9 +308,9 @@ bool VoxelGrid::Init(const Eigen::Vector3f& bb_max,
 
   float offset = resolution_ * 0.5f;
 
-#if defined(_OPENMP) && defined(VACANCY_USE_OPENMP)
-#pragma omp parallel for schedule(dynamic, 1)
-#endif
+
+#pragma omp parallel for //schedule(dynamic, 1)
+
   for (int z = 0; z < voxel_num_.z(); z++) {
     float z_pos = diff.z() * (static_cast<float>(z) /
                               static_cast<float>(voxel_num_.z())) +
@@ -428,9 +428,9 @@ bool VoxelCarver::Carve(const Camera& camera, const Image1b& silhouette,
   timer.Start();
   const Eigen::Vector3i& voxel_num = voxel_grid_->voxel_num();
   const Eigen::Affine3f& w2c = camera.w2c().cast<float>();
-#if defined(_OPENMP) && defined(VACANCY_USE_OPENMP)
-#pragma omp parallel for schedule(dynamic, 1)
-#endif
+
+#pragma omp parallel for //schedule(dynamic, 16)
+
   for (int z = 0; z < voxel_num.z(); z++) {
     for (int y = 0; y < voxel_num.y(); y++) {
       for (int x = 0; x < voxel_num.x(); x++) {

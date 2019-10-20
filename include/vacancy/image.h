@@ -152,6 +152,8 @@ using Image3f = Image<float, 3>;  // For normal or point cloud. XYZ order.
 void Depth2Gray(const Image1f& depth, Image1b* vis_depth, float min_d = 200.0f,
                 float max_d = 1500.0f);
 
+void RGB2Mask(const Image3b& rgb, Image1b* mask);
+
 void Normal2Color(const Image3f& normal, Image3b* vis_normal);
 
 void FaceId2RandomColor(const Image1i& face_id, Image3b* vis_face_id);
