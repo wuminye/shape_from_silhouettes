@@ -128,6 +128,9 @@ int main(int argc, char *argv[])
     printf("2.Path to Intrinsic.inf\n");
     printf("3.Path to mask folder\n");
     printf("4.Path to output folder\n");
+    printf("5.6.7 bb_min_x bb_min_y bb_min_z\n");
+    printf("8,9,10 bb_max_x bb_max_y bb_max_z\n");
+    printf("11. bb_offset\n");
     exit(-1);
   }
 
@@ -158,12 +161,30 @@ int main(int argc, char *argv[])
   vacancy::VoxelCarver carver;
   vacancy::VoxelCarverOption option;
 
-  // exact mesh bounding box computed in advacne
-  option.bb_min = Eigen::Vector3f(-1.0f, -1.5f, -5.0f);
-  option.bb_max = Eigen::Vector3f(1.1f, 0.0f, -3.3f);
 
+  float a,b,c;
+
+  sscanf(argv[5],"%f",&a);
+  sscanf(argv[6],"%f",&b);
+  sscanf(argv[7],"%f",&c);
+
+  // exact mesh bounding box computed in advacne
+  option.bb_min = Eigen::Vector3f(a,b,c);
+
+  sscanf(argv[8],"%f",&a);
+  sscanf(argv[9],"%f",&b);
+  sscanf(argv[10],"%f",&c);
+
+
+  option.bb_max = Eigen::Vector3f(a,b,c);
+
+  //option.bb_min = Eigen::Vector3f(-1.0f, -1.5f, -5.0f);
+  //option.bb_max = Eigen::Vector3f(1.1f, 0.0f, -3.3f);
   // add offset to the bounding box to keep boundary clean
   float bb_offset = 0.2f;
+
+  sscanf(argv[11],"%f",&bb_offset);
+
   option.bb_min[0] -= bb_offset;
   option.bb_min[1] -= bb_offset;
   option.bb_min[2] -= bb_offset;
