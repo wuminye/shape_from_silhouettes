@@ -120,17 +120,18 @@ std::vector<std::shared_ptr<vacancy::Camera>> read_camera_intrinsic(std::string 
 // test by bunny data with 6 views
 int main(int argc, char *argv[]) 
 {
-  if (argc<2)
+  if (argc<2 || argc !=13)
   {
     printf("Error args!!.\n");
     printf("-----------------------------------\n");
     printf("1.Path to CamPose.inf\n");
     printf("2.Path to Intrinsic.inf\n");
     printf("3.Path to mask folder\n");
-    printf("4.Path to output folder\n");
+    printf("4.Path to output ply\n");
     printf("5.6.7 bb_min_x bb_min_y bb_min_z\n");
     printf("8,9,10 bb_max_x bb_max_y bb_max_z\n");
     printf("11. bb_offset\n");
+    printf("12. resolution\n");
     exit(-1);
   }
 
@@ -196,6 +197,8 @@ int main(int argc, char *argv[])
   // voxel resolution is 10mm
   option.resolution = 0.01f;
 
+  sscanf(argv[12],"%f",&option.resolution);
+
   carver.set_option(option);
 
   carver.Init();
@@ -218,21 +221,31 @@ int main(int argc, char *argv[])
     carver.Carve(*camera, silhouette, &sdf);
 
     // save SDF visualization
-    vacancy::Image3b vis_sdf;
-    vacancy::SignedDistance2Color(sdf, &vis_sdf, -1.0f, 1.0f);
-    vis_sdf.WritePng(data_dir + "/sdf_" + num + ".png");
+    //vacancy::Image3b vis_sdf;
+    //vacancy::SignedDistance2Color(sdf, &vis_sdf, -1.0f, 1.0f);
+    //vis_sdf.WritePng(data_dir + "/sdf_" + num + ".png");
     
 
-    vacancy::Mesh mesh;
+    //vacancy::Mesh mesh;
     // voxel extraction
     // slow for algorithm itself and saving to disk
     //carver.ExtractVoxel(&mesh);
     //mesh.WritePly(data_dir + "/voxel_" + num + ".ply");
     // marching cubes
     // smoother and faster
-    carver.ExtractIsoSurface(&mesh, 0.0);
-    mesh.WritePly(data_dir + "/surface_" + num + ".ply");
+    //carver.ExtractIsoSurface(&mesh, 0.0);
+    //mesh.WritePly(data_dir + "/surface_" + num + ".ply");
   }
+
+  vacancy::Mesh mesh;
+  // voxel extraction
+  // slow for algorithm itself and saving to disk
+  //carver.ExtractVoxel(&mesh);
+  //mesh.WritePly(data_dir + "/voxel_" + num + ".ply");
+  // marching cubes
+  // smoother and faster
+  carver.ExtractIsoSurface(&mesh, 0.0);
+  mesh.WritePly(data_dir);
 
   return 0;
 }
