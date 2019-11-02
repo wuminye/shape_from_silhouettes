@@ -120,7 +120,7 @@ std::vector<std::shared_ptr<vacancy::Camera>> read_camera_intrinsic(std::string 
 // test by bunny data with 6 views
 int main(int argc, char *argv[]) 
 {
-  if (argc<2 || argc !=13)
+  if (argc<2 || argc !=16)
   {
     printf("Error args!!.\n");
     printf("-----------------------------------\n");
@@ -132,6 +132,9 @@ int main(int argc, char *argv[])
     printf("8,9,10 bb_max_x bb_max_y bb_max_z\n");
     printf("11. bb_offset\n");
     printf("12. resolution\n");
+    printf("13. sdf_threshold\n");
+    printf("14. voxel_update methods, -1(kmax) or a float(kWeightedAverage)\n");
+    printf("15. trunction, -1(no use) or a float(truncation_band)\n");
     exit(-1);
   }
 
@@ -199,6 +202,21 @@ int main(int argc, char *argv[])
 
   sscanf(argv[12],"%f",&option.resolution);
 
+  if (argv[14][0] != '-')
+  {
+    printf("set VoxelUpdate to kWeightedAverage %s.\n",argv[14]);
+    option.update_option.voxel_update=vacancy::VoxelUpdate::kWeightedAverage;
+    sscanf(argv[14],"%f",&option.update_option.voxel_update_weight);
+  }
+
+  if (argv[15][0] != '-')
+  {
+    printf("set truncation_band to %s.\n",argv[15]);
+    option.update_option.use_truncation=true;
+    sscanf(argv[15],"%f",&option.update_option.truncation_band);
+  }
+  
+
   carver.set_option(option);
 
   carver.Init();
@@ -244,7 +262,10 @@ int main(int argc, char *argv[])
   //mesh.WritePly(data_dir + "/voxel_" + num + ".ply");
   // marching cubes
   // smoother and faster
-  carver.ExtractIsoSurface(&mesh, 0.0);
+
+  float threshold= 0 ;
+  sscanf(argv[13],"%f",&threshold);
+  carver.ExtractIsoSurface(&mesh, threshold);
   mesh.WritePly(data_dir);
 
   return 0;
