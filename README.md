@@ -1,3 +1,5 @@
+This project is based on https://github.com/unclearness/vacancy
+
 # Build
 `mkdir build`
 
@@ -41,3 +43,4 @@ Parameters:
     - Image I/O
 - OpenMP (if supported by your compiler)
     - Multi-thread accelaration
+
